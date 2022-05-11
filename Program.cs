@@ -1,13 +1,14 @@
 ﻿using System;
 using board;
 
-namespace xadrez {
+namespace xadrez 
+{
 
-  public class Program {
+  public class Program 
+  {
     static void Main(string[] args) {
-      Board board = new Board(4, 4);
-
-      Console.Write(board);
+      Board board = new Board(8, 8);
+      Display.printBoard(board);
     }
   }
 }

@@ -11,10 +11,9 @@ namespace board {
         public int Column { get; set; }
         private Play[,] Parts {get; set; }
 
-        public override string ToString() {
-        
-            return $"{Row}, {Column}";
-        
+
+        public Play play(int row, int column) {
+            return Parts[row, column];
         }
     }
 }

@@ -7,6 +7,7 @@ namespace board
             Position = position;
             Color = color;
             Board = board;
+            NumberMoves = 0;
         }
 
         public Position Position { get; set; }
