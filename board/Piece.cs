@@ -1,10 +1,10 @@
 namespace board 
 {
-    class Play 
+    class Piece 
     {
-        public Play(Position position, Color color, Board board)
+        public Piece(Color color, Board board)
         {
-            Position = position;
+            Position = null;
             Color = color;
             Board = board;
             NumberMoves = 0;

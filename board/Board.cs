@@ -4,16 +4,20 @@ namespace board {
         {
             Row = row;
             Column = column;
-            Parts = new Play[row, column];
+            Pieces = new Piece[row, column];
         }
 
         public int Row { get; set; }
         public int Column { get; set; }
-        private Play[,] Parts {get; set; }
+        private Piece[,] Pieces {get; set; }
 
+        public Piece play(int row, int column) {
+            return Pieces[row, column];
+        }
 
-        public Play play(int row, int column) {
-            return Parts[row, column];
+        public void positionPiece(Piece piece, Position position) {
+            Pieces[position.Row, position.Column] = piece;
+            piece.Position = position;
         }
     }
 }
