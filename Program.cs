@@ -12,15 +12,8 @@ namespace xadrez
 
       try
       {
-        Board board = new Board(8, 8);
-
-        board.positionPiece(new King(Color.White, board), new Position(0,0));
-        board.positionPiece(new Tower(Color.Black, board), new Position(1,0));
-        board.positionPiece(new Horse(Color.Black, board), new Position(2,0));
-        board.positionPiece(new Tower(Color.White, board), new Position(4,4));
-
-        Display.printBoard(board);
-        
+        ChessPlay chessPlay = new ChessPlay();
+        Display.printBoard(chessPlay.Board);
       }
       catch (BoardException e)
       {

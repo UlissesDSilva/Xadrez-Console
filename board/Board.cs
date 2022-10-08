@@ -19,7 +19,8 @@ namespace board
         public Piece piece(Position position) 
             => Pieces[position.Row, position.Column];
 
-        public void positionPiece(Piece piece, Position position) {
+        public void positionPiece(Piece piece, Position position) 
+        {
 
             if(existPiece(position)){
                 throw new BoardException("There is already a piece in that position");
@@ -27,6 +28,18 @@ namespace board
             
             Pieces[position.Row, position.Column] = piece;
             piece.Position = position;
+        }
+
+        public Piece removePiece(Position position) 
+        {
+            if(piece(position) == null){
+                return null;
+            }
+
+            Piece aux = piece(position);
+            aux.Position = null;
+            Pieces[position.Row, position.Column] = null;
+            return aux;
         }
 
         public bool existPiece(Position position)
@@ -43,7 +56,8 @@ namespace board
             return true;
         }
 
-        public void validatePosition(Position position) {
+        public void validatePosition(Position position) 
+        {
             if (!validPosition(position)){
                 throw new BoardException("Position is not valid");
             }

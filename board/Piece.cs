@@ -14,5 +14,10 @@ namespace board
         public Color Color { get; protected set; }
         public Board Board { get; protected set; }
         public int NumberMoves { get; protected set; }
+
+        public void incrementMovements() 
+        {
+            NumberMoves++;
+        }
     }
 }
