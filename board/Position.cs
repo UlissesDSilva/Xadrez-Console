@@ -1,8 +1,6 @@
 namespace board {
 
   class Position {
-    public int Row { get; set; }
-    public int Column { get; set; }
 
     public Position(int row, int column) 
     {
@@ -10,11 +8,12 @@ namespace board {
       Column = column;
     }
 
+    public int Row { get; set; }
+    public int Column { get; set; }
+
     public override string ToString() 
     {
-    
       return $"{Row}, {Column}";
-    
     }
   }
 }
