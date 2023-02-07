@@ -4,17 +4,19 @@ namespace chess
 {
     class ChessPlay
     {
-        public Board Board {get; private set;}
-        private int Turn;
-        private Color PlayCurrent;
-
         public ChessPlay()
         {
             Board = new Board(8, 8);
             Turn = 1;
             PlayCurrent = Color.Pink;
             putPieces();
+            Endgame = false;            
         }
+
+        public Board Board {get; private set;}
+        private int Turn;
+        private Color PlayCurrent;
+        public bool Endgame {get; private set;}
 
         public void movement(Position origin, Position destiny)
         {

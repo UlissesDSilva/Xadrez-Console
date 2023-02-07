@@ -1,4 +1,5 @@
 using board;
+using chess;
 
 namespace xadrez
 {
@@ -24,6 +25,14 @@ namespace xadrez
             Console.WriteLine("  a b c d e f g h");
         }
 
+        public static PositionChess writePositionPiece() {
+            string movie = Console.ReadLine();
+            char column = movie[0];
+            int row = int.Parse(movie[1] + "");
+
+            return new PositionChess(column, row);
+        }
+
         public static void printPiece(Piece piece)
         {
             if(piece.Color == Color.White)
@@ -32,7 +41,7 @@ namespace xadrez
             } else 
             {
                 ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write(piece);
                 Console.ForegroundColor = aux;
             }
