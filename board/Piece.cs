@@ -1,6 +1,6 @@
 namespace board 
 {
-    class Piece 
+    abstract class Piece 
     {
         public Piece(Color color, Board board)
         {
@@ -19,5 +19,7 @@ namespace board
         {
             NumberMoves++;
         }
+
+        public abstract bool [,] possibleMoves();
     }
 }
