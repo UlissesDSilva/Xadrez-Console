@@ -18,9 +18,6 @@ namespace xadrez
         while(!chessPlay.Endgame) {
           try {
             newDisplay(chessPlay);
-
-            Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
-            Console.WriteLine($"Turno: {chessPlay.Turn}");
             
             Console.Write("Origin: ");
             origin = Display.writePositionPiece().toPosition();
@@ -56,6 +53,9 @@ namespace xadrez
       } else {
         Display.printBoard(chessPlay.Board, possibleMoves);
       }
+      Display.getCapturedPieces(chessPlay);
+      Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
+      Console.WriteLine($"Turno: {chessPlay.Turn}");
     }
   }
 }

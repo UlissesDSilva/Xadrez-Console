@@ -19,6 +19,28 @@ namespace xadrez
             Console.WriteLine();
         }
 
+        public static void getCapturedPieces(ChessPlay chessPlay) {
+            Console.WriteLine("Captured Pieces");
+            Console.Write("White: ");
+            getHashSetPieces(chessPlay.getCapturedPieces(Color.White));
+            Console.Write("Pink: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            getHashSetPieces(chessPlay.getCapturedPieces(Color.Pink));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+
+        }
+
+        public static void getHashSetPieces(HashSet<Piece> hashSetPiece){
+            Console.Write("[");
+            foreach (Piece piece in hashSetPiece) {
+                Console.Write(piece + " ");
+            }
+            Console.Write("]");
+            Console.WriteLine();
+        }
+
         public static void printBoard(Board board, bool[,] possibleMoves)
         {
             ConsoleColor originalBackground = Console.BackgroundColor;
