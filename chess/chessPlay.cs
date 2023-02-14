@@ -8,15 +8,21 @@ namespace chess
         {
             Board = new Board(8, 8);
             Turn = 1;
-            PlayCurrent = Color.Pink;
+            PlayCurrent = Color.White;
             putPieces();
             Endgame = false;            
         }
 
         public Board Board {get; private set;}
-        private int Turn;
-        private Color PlayCurrent;
+        public int Turn {get; private set;}
+        public Color PlayCurrent {get; private set;}
         public bool Endgame {get; private set;}
+
+        public void performMove(Position origin, Position destiny){
+            movement(origin, destiny);
+            Turn++;
+            PlayCurrent = PlayCurrent == Color.White ? Color.Pink : Color.White;
+        }
 
         public void movement(Position origin, Position destiny)
         {
@@ -24,6 +30,23 @@ namespace chess
             piece.incrementMovements();
             Piece capturedPiece = Board.removePiece(destiny);
             Board.positionPiece(piece, destiny);
+        }
+
+        public void validateOriginPosition(Position position){
+            if (Board.piece(position) == null) {
+                throw new BoardException("There is not piece in this location!");
+            }
+            if (Board.piece(position).Color != PlayCurrent) {
+                throw new BoardException($"The turn is for the pieces: {PlayCurrent}");
+            }
+            if (!Board.piece(position).existPossibleMove()) {
+                throw new BoardException("There is not movement");
+            }
+        }
+
+        public void validateDestinyPosition(Position origin, Position destiny) {
+            if(!Board.piece(origin).canMove(destiny))
+                throw new BoardException("Invalid target position!");
         }
 
         private void putPieces()

@@ -61,7 +61,7 @@ namespace xadrez
                 } else 
                 {
                     ConsoleColor aux = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write(piece);
                     Console.ForegroundColor = aux;
                 }

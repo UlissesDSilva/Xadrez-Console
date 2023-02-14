@@ -16,19 +16,29 @@ namespace xadrez
         ChessPlay chessPlay = new ChessPlay();
 
         while(!chessPlay.Endgame) {
-          newDisplay(chessPlay);
+          try {
+            newDisplay(chessPlay);
 
-          Console.Write("Origin: ");
-          origin = Display.writePositionPiece().toPosition();
+            Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
+            Console.WriteLine($"Turno: {chessPlay.Turn}");
+            
+            Console.Write("Origin: ");
+            origin = Display.writePositionPiece().toPosition();
+            chessPlay.validateOriginPosition(origin);
 
-          bool[,] possibleMoves = chessPlay.Board.piece(origin).possibleMoves();
+            bool[,] possibleMoves = chessPlay.Board.piece(origin).possibleMoves();
 
-          newDisplay(chessPlay, possibleMoves);
+            newDisplay(chessPlay, possibleMoves);
 
-          Console.Write("Destiny: ");
-          destiny = Display.writePositionPiece().toPosition();
-          
-          chessPlay.movement(origin, destiny);
+            Console.Write("Destiny: ");
+            destiny = Display.writePositionPiece().toPosition();
+            chessPlay.validateDestinyPosition(origin, destiny);
+            
+            chessPlay.performMove(origin, destiny);
+          } catch (BoardException e) {
+            Console.WriteLine(e.Message);
+            Console.ReadLine();
+          }
         }
         
       }
