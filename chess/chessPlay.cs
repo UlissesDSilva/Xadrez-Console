@@ -27,15 +27,19 @@ namespace chess
         public void performMove(Position origin, Position destiny){
             Piece piece = movement(origin, destiny);
 
-            if(verityIfItsInCheck(PlayCurrent)) {
+            if(verifyIfItsInCheck(PlayCurrent)) {
                 undoMove(origin, destiny, piece);
                 throw new BoardException("You can't put yourself in check!");
             }
 
-            Check = verityIfItsInCheck(getAdversary(PlayCurrent)) ? true : false;
+            Check = verifyIfItsInCheck(getAdversary(PlayCurrent)) ? true : false;
 
-            Turn++;
-            PlayCurrent = PlayCurrent == Color.White ? Color.Pink : Color.White;
+            if (verifyCheckmate(getAdversary(PlayCurrent))) {
+                Endgame = true;
+            } else {
+                Turn++;
+                PlayCurrent = PlayCurrent == Color.White ? Color.Pink : Color.White;
+            }
         }
 
         public Piece movement(Position origin, Position destiny)
@@ -74,7 +78,7 @@ namespace chess
         }
 
         public void validateDestinyPosition(Position origin, Position destiny) {
-            if(!Board.piece(origin).canMove(destiny))
+            if(!Board.piece(origin).canMoveTo(destiny))
                 throw new BoardException("Invalid target position!");
         }
 
@@ -111,7 +115,7 @@ namespace chess
             return null;
         }
 
-        public bool verityIfItsInCheck(Color color){
+        private bool verifyIfItsInCheck(Color color){
             Piece king = getKing(color);
             if (king == null) {
                 throw new BadImageFormatException($"There is not king the color {color}");
@@ -124,6 +128,31 @@ namespace chess
                 }
             }
             return false;
+        }
+
+        private bool verifyCheckmate(Color color){
+            if(!verifyIfItsInCheck(color))
+                return false;
+
+            foreach(Piece piece in getPiecesInGame(color)){
+                bool[,] moves = piece.possibleMoves();
+
+                for(int row = 0; row < Board.Row; row++) {
+                    for(int column = 0; column < Board.Column; column++) {
+                        if(moves[row, column]){
+                            Position origin = piece.Position;
+                            Position destiny = new Position(row, column);
+                            Piece capturedPiece = movement(origin, destiny);
+                            bool checkTest = verifyIfItsInCheck(color);
+                            undoMove(origin, destiny, capturedPiece);
+                            if (!checkTest) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void putNewPiece(Piece piece, char column, int row){

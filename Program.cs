@@ -37,7 +37,7 @@ namespace xadrez
             Console.ReadLine();
           }
         }
-        
+        Display.newDisplay(chessPlay);
       }
       catch (BoardException e)
       {

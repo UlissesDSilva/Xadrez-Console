@@ -27,11 +27,16 @@ namespace xadrez
                 printBoard(chessPlay.Board, possibleMoves);
             }
             getCapturedPieces(chessPlay);
-            Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
             Console.WriteLine($"Turno: {chessPlay.Turn}");
-            if(chessPlay.Check){
-                Console.WriteLine();
-                Console.WriteLine("Check");
+            if(!chessPlay.Endgame) {
+                Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
+                if(chessPlay.Check){
+                    Console.WriteLine();
+                    Console.WriteLine("Check");
+                }
+            } else {
+                Console.WriteLine("Checkmate");
+                Console.WriteLine($"The winner is {chessPlay.PlayCurrent}");
             }
         }
 
