@@ -17,7 +17,7 @@ namespace xadrez
 
         while(!chessPlay.Endgame) {
           try {
-            newDisplay(chessPlay);
+            Display.newDisplay(chessPlay);
             
             Console.Write("Origin: ");
             origin = Display.writePositionPiece().toPosition();
@@ -25,7 +25,7 @@ namespace xadrez
 
             bool[,] possibleMoves = chessPlay.Board.piece(origin).possibleMoves();
 
-            newDisplay(chessPlay, possibleMoves);
+            Display.newDisplay(chessPlay, possibleMoves);
 
             Console.Write("Destiny: ");
             destiny = Display.writePositionPiece().toPosition();
@@ -46,16 +46,20 @@ namespace xadrez
 
     }
 
-    private static void newDisplay(ChessPlay chessPlay, bool[,] possibleMoves = null) {
-      Console.Clear();
-      if (possibleMoves == null) {
-        Display.printBoard(chessPlay.Board);
-      } else {
-        Display.printBoard(chessPlay.Board, possibleMoves);
-      }
-      Display.getCapturedPieces(chessPlay);
-      Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
-      Console.WriteLine($"Turno: {chessPlay.Turn}");
-    }
+    // private static void newDisplay(ChessPlay chessPlay, bool[,] possibleMoves = null) {
+    //   Console.Clear();
+    //   if (possibleMoves == null) {
+    //     Display.printBoard(chessPlay.Board);
+    //   } else {
+    //     Display.printBoard(chessPlay.Board, possibleMoves);
+    //   }
+    //   Display.getCapturedPieces(chessPlay);
+    //   Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
+    //   Console.WriteLine($"Turno: {chessPlay.Turn}");
+    //   if(chessPlay.Check){
+    //     Console.WriteLine();
+    //     Console.WriteLine("Check");
+    //   }
+    // }
   }
 }

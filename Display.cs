@@ -19,6 +19,22 @@ namespace xadrez
             Console.WriteLine();
         }
 
+        public static void newDisplay(ChessPlay chessPlay, bool[,] possibleMoves = null) {
+            Console.Clear();
+            if (possibleMoves == null) {
+                printBoard(chessPlay.Board);
+            } else {
+                printBoard(chessPlay.Board, possibleMoves);
+            }
+            getCapturedPieces(chessPlay);
+            Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
+            Console.WriteLine($"Turno: {chessPlay.Turn}");
+            if(chessPlay.Check){
+                Console.WriteLine();
+                Console.WriteLine("Check");
+            }
+        }
+
         public static void getCapturedPieces(ChessPlay chessPlay) {
             Console.WriteLine("Captured Pieces");
             Console.Write("White: ");

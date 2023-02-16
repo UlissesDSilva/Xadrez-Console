@@ -10,6 +10,7 @@ namespace chess
             Turn = 1;
             PlayCurrent = Color.White;
             Endgame = false;
+            Check = false;
             PiecesInGame = new HashSet<Piece>();
             CapturedPieces = new HashSet<Piece>();
             putPieces();
@@ -21,14 +22,23 @@ namespace chess
         public bool Endgame {get; private set;}
         private HashSet<Piece> PiecesInGame;
         private HashSet<Piece> CapturedPieces;
+        public bool Check {get; private set;}
 
         public void performMove(Position origin, Position destiny){
-            movement(origin, destiny);
+            Piece piece = movement(origin, destiny);
+
+            if(verityIfItsInCheck(PlayCurrent)) {
+                undoMove(origin, destiny, piece);
+                throw new BoardException("You can't put yourself in check!");
+            }
+
+            Check = verityIfItsInCheck(getAdversary(PlayCurrent)) ? true : false;
+
             Turn++;
             PlayCurrent = PlayCurrent == Color.White ? Color.Pink : Color.White;
         }
 
-        public void movement(Position origin, Position destiny)
+        public Piece movement(Position origin, Position destiny)
         {
             Piece piece = Board.removePiece(origin);
             piece.incrementMovements();
@@ -37,6 +47,18 @@ namespace chess
 
             if (capturedPiece != null)
                 CapturedPieces.Add(capturedPiece);
+            
+            return capturedPiece;
+        }
+
+        private void undoMove(Position origin, Position destiny, Piece capturedPiece) {
+            Piece movedPiece = Board.removePiece(destiny);
+            movedPiece.decrementMovements();
+            if(capturedPiece != null) {
+                Board.positionPiece(capturedPiece, destiny);
+                CapturedPieces.Remove(capturedPiece);
+            }
+            Board.positionPiece(movedPiece, origin);
         }
 
         public void validateOriginPosition(Position position){
@@ -75,6 +97,35 @@ namespace chess
             return aux;
         }
 
+        private Color getAdversary(Color color) {
+            return color == Color.White ? Color.Pink : Color.White;
+        }
+
+        private Piece getKing(Color color) {
+            foreach(Piece piece in getPiecesInGame(color)) {
+                //Instância de King
+                if (piece is King) {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        public bool verityIfItsInCheck(Color color){
+            Piece king = getKing(color);
+            if (king == null) {
+                throw new BadImageFormatException($"There is not king the color {color}");
+            }
+
+            foreach(Piece piece in getPiecesInGame(getAdversary(color))){
+                bool[,] moves = piece.possibleMoves();
+                if(moves[king.Position.Row, king.Position.Column]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void putNewPiece(Piece piece, char column, int row){
             Board.positionPiece(piece, new PositionChess(column, row).toPosition());
             PiecesInGame.Add(piece);
@@ -83,38 +134,38 @@ namespace chess
         private void putPieces()
         {
             putNewPiece(new Tower(Color.White, Board), 'a', 1);
-            putNewPiece(new Horse(Color.White, Board), 'b', 1);
-            putNewPiece(new Bishop(Color.White, Board), 'c', 1);
-            putNewPiece(new Queen(Color.White, Board), 'd', 1);
+            // putNewPiece(new Horse(Color.White, Board), 'b', 1);
+            // putNewPiece(new Bishop(Color.White, Board), 'c', 1);
+            // putNewPiece(new Queen(Color.White, Board), 'd', 1);
             putNewPiece(new King(Color.White, Board), 'e', 1);
-            putNewPiece(new Bishop(Color.White, Board), 'f', 1);
-            putNewPiece(new Horse(Color.White, Board), 'g', 1);
+            // putNewPiece(new Bishop(Color.White, Board), 'f', 1);
+            // putNewPiece(new Horse(Color.White, Board), 'g', 1);
             putNewPiece(new Tower(Color.White, Board), 'h', 1);
-            putNewPiece(new Pawn(Color.White, Board), 'a', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'b', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'c', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'd', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'e', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'f', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'g', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'h', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'a', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'b', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'c', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'd', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'e', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'f', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'g', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'h', 2);
 
             putNewPiece(new Tower(Color.Pink, Board), 'a', 8);
-            putNewPiece(new Horse(Color.Pink, Board), 'b', 8);
-            putNewPiece(new Bishop(Color.Pink, Board), 'c', 8);
-            putNewPiece(new Queen(Color.Pink, Board), 'd', 8);
+            // putNewPiece(new Horse(Color.Pink, Board), 'b', 8);
+            // putNewPiece(new Bishop(Color.Pink, Board), 'c', 8);
+            // putNewPiece(new Queen(Color.Pink, Board), 'd', 8);
             putNewPiece(new King(Color.Pink, Board), 'e', 8);
-            putNewPiece(new Bishop(Color.Pink, Board), 'f', 8);
-            putNewPiece(new Horse(Color.Pink, Board), 'g', 8);
+            // putNewPiece(new Bishop(Color.Pink, Board), 'f', 8);
+            // putNewPiece(new Horse(Color.Pink, Board), 'g', 8);
             putNewPiece(new Tower(Color.Pink, Board), 'h', 8);
-            putNewPiece(new Pawn(Color.Pink, Board), 'a', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'b', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'c', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'd', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'e', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'f', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'g', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'h', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'a', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'b', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'c', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'd', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'e', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'f', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'g', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'h', 7);
         }
 
     }
