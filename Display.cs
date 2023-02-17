@@ -31,7 +31,6 @@ namespace xadrez
             if(!chessPlay.Endgame) {
                 Console.WriteLine($"Jogada da: {chessPlay.PlayCurrent}");
                 if(chessPlay.Check){
-                    Console.WriteLine();
                     Console.WriteLine("Check");
                 }
             } else {
@@ -49,7 +48,6 @@ namespace xadrez
             Console.ForegroundColor = ConsoleColor.Magenta;
             getHashSetPieces(chessPlay.getCapturedPieces(Color.Pink));
             Console.ForegroundColor = aux;
-            Console.WriteLine();
 
         }
 
