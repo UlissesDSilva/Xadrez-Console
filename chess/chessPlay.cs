@@ -52,6 +52,26 @@ namespace chess
             if (capturedPiece != null)
                 CapturedPieces.Add(capturedPiece);
             
+            //Small castling
+            if (piece is King && destiny.Column == origin.Column + 2) {
+                Position towerOrigin = new Position(origin.Row, origin.Column + 3);
+                Position towerDestiny = new Position(origin.Row, origin.Column + 1);
+                movement(towerOrigin, towerDestiny);
+                // Piece tower = Board.removePiece(towerOrigin);
+                // tower.incrementMovements();
+                // Board.positionPiece(tower, towerDestiny);
+            }
+
+            //Big castling
+            if (piece is King && destiny.Column == origin.Column - 2) {
+                Position towerOrigin = new Position(origin.Row, origin.Column - 4);
+                Position towerDestiny = new Position(origin.Row, origin.Column - 1);
+                movement(towerOrigin, towerDestiny);
+                // Piece tower = Board.removePiece(towerOrigin);
+                // tower.incrementMovements();
+                // Board.positionPiece(tower, towerDestiny);
+            }
+            
             return capturedPiece;
         }
 
@@ -63,6 +83,26 @@ namespace chess
                 CapturedPieces.Remove(capturedPiece);
             }
             Board.positionPiece(movedPiece, origin);
+
+            //Small castling
+            if (movedPiece is King && destiny.Column == origin.Column + 2) {
+                Position towerOrigin = new Position(origin.Row, origin.Column + 3);
+                Position towerDestiny = new Position(origin.Row, origin.Column + 1);
+                undoMove(towerOrigin, towerDestiny, movedPiece);
+                // Piece tower = Board.removePiece(towerOrigin);
+                // tower.incrementMovements();
+                // Board.positionPiece(tower, towerDestiny);
+            }
+
+            //Big castling
+            if (movedPiece is King && destiny.Column == origin.Column - 2) {
+                Position towerOrigin = new Position(origin.Row, origin.Column - 4);
+                Position towerDestiny = new Position(origin.Row, origin.Column - 1);
+                undoMove(towerOrigin, towerDestiny, movedPiece);
+                // Piece tower = Board.removePiece(towerOrigin);
+                // tower.incrementMovements();
+                // Board.positionPiece(tower, towerDestiny);
+            }
         }
 
         public void validateOriginPosition(Position position){
@@ -166,35 +206,35 @@ namespace chess
             putNewPiece(new Horse(Color.White, Board), 'b', 1);
             putNewPiece(new Bishop(Color.White, Board), 'c', 1);
             putNewPiece(new Queen(Color.White, Board), 'd', 1);
-            putNewPiece(new King(Color.White, Board), 'e', 1);
+            putNewPiece(new King(Color.White, Board, this), 'e', 1);
             putNewPiece(new Bishop(Color.White, Board), 'f', 1);
             putNewPiece(new Horse(Color.White, Board), 'g', 1);
             putNewPiece(new Tower(Color.White, Board), 'h', 1);
-            putNewPiece(new Pawn(Color.White, Board), 'a', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'b', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'c', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'd', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'e', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'f', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'g', 2);
-            putNewPiece(new Pawn(Color.White, Board), 'h', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'a', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'b', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'c', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'd', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'e', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'f', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'g', 2);
+            // putNewPiece(new Pawn(Color.White, Board), 'h', 2);
 
             putNewPiece(new Tower(Color.Pink, Board), 'a', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'b', 8);
             putNewPiece(new Bishop(Color.Pink, Board), 'c', 8);
             putNewPiece(new Queen(Color.Pink, Board), 'd', 8);
-            putNewPiece(new King(Color.Pink, Board), 'e', 8);
+            putNewPiece(new King(Color.Pink, Board, this), 'e', 8);
             putNewPiece(new Bishop(Color.Pink, Board), 'f', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'g', 8);
             putNewPiece(new Tower(Color.Pink, Board), 'h', 8);
-            putNewPiece(new Pawn(Color.Pink, Board), 'a', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'b', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'c', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'd', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'e', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'f', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'g', 7);
-            putNewPiece(new Pawn(Color.Pink, Board), 'h', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'a', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'b', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'c', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'd', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'e', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'f', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'g', 7);
+            // putNewPiece(new Pawn(Color.Pink, Board), 'h', 7);
         }
 
     }
