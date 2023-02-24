@@ -85,6 +85,9 @@ namespace xadrez
 
         public static PositionChess writePositionPiece() {
             string move = Console.ReadLine();
+            if(String.IsNullOrEmpty(move) || move.Trim().Length == 0) {
+                throw new BoardException("Choose a move");
+            }
             char column = move[0];
             int row = int.Parse(move[1] + "");
 
