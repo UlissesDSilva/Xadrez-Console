@@ -27,11 +27,48 @@ namespace chess
         public Piece vulnerablePiecePassant {get; private set;}
 
         public void performMove(Position origin, Position destiny){
-            Piece piece = movement(origin, destiny);
+            Piece capturedPiece = movement(origin, destiny);
+            Piece piece = Board.piece(destiny);
 
             if(verifyIfItsInCheck(PlayCurrent)) {
-                undoMove(origin, destiny, piece);
+                undoMove(origin, destiny, capturedPiece);
                 throw new BoardException("You can't put yourself in check!");
+            }
+
+            //Promotion
+            if(piece is Pawn) {
+                if((piece.Color == Color.White && destiny.Row == 0) || (piece.Color != Color.White && destiny.Row == 7)) {
+                    piece = Board.removePiece(destiny);
+                    PiecesInGame.Remove(piece);
+
+                    char piecePromotion = choosePiece();
+                    
+                    switch (piecePromotion.ToString().ToUpper())
+                    {
+                        case "T":
+                            Piece tower = new Tower(piece.Color, Board);
+                            Board.positionPiece(tower, destiny);
+                            PiecesInGame.Add(tower);
+                            break;
+                        case "H":
+                            Piece house = new Horse(piece.Color, Board);
+                            Board.positionPiece(house, destiny);
+                            PiecesInGame.Add(house);
+                            break;
+                        case "B":
+                            Piece bishop = new Bishop(piece.Color, Board);
+                            Board.positionPiece(bishop, destiny);
+                            PiecesInGame.Add(bishop);
+                            break;
+                        case "Q":
+                            Piece queen = new Queen(piece.Color, Board);
+                            Board.positionPiece(queen, destiny);
+                            PiecesInGame.Add(queen);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
 
             Check = verifyIfItsInCheck(getAdversary(PlayCurrent)) ? true : false;
@@ -44,9 +81,8 @@ namespace chess
             }
             
             //En passant
-            Piece piecePassant = Board.piece(destiny);
-            if(piecePassant is Pawn && (destiny.Row == origin.Row + 2 || destiny.Row == origin.Row - 2)) {
-                vulnerablePiecePassant = piecePassant;
+            if(piece is Pawn && (destiny.Row == origin.Row + 2 || destiny.Row == origin.Row - 2)) {
+                vulnerablePiecePassant = piece;
             } else {
                 vulnerablePiecePassant = null;
             }
@@ -259,7 +295,7 @@ namespace chess
             putNewPiece(new Pawn(Color.White, Board, this), 'e', 2);
             putNewPiece(new Pawn(Color.White, Board, this), 'f', 2);
             putNewPiece(new Pawn(Color.White, Board, this), 'g', 2);
-            putNewPiece(new Pawn(Color.White, Board, this), 'h', 2);
+            putNewPiece(new Pawn(Color.White, Board, this), 'h', 6);
 
             putNewPiece(new Tower(Color.Pink, Board), 'a', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'b', 8);
@@ -269,7 +305,7 @@ namespace chess
             putNewPiece(new Bishop(Color.Pink, Board), 'f', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'g', 8);
             putNewPiece(new Tower(Color.Pink, Board), 'h', 8);
-            putNewPiece(new Pawn(Color.Pink, Board, this), 'a', 7);
+            putNewPiece(new Pawn(Color.Pink, Board, this), 'a', 3);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'b', 7);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'c', 7);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'd', 7);
@@ -279,5 +315,12 @@ namespace chess
             putNewPiece(new Pawn(Color.Pink, Board, this), 'h', 7);
         }
 
+        private char choosePiece() {
+            Console.WriteLine("Choose a piece");
+            Console.WriteLine("[ T H B Q ]");
+            char piece = char.Parse(Console.ReadLine());
+            return piece;
+        }
     }
+
 }
