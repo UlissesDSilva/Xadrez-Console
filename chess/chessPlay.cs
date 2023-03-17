@@ -295,7 +295,7 @@ namespace chess
             putNewPiece(new Pawn(Color.White, Board, this), 'e', 2);
             putNewPiece(new Pawn(Color.White, Board, this), 'f', 2);
             putNewPiece(new Pawn(Color.White, Board, this), 'g', 2);
-            putNewPiece(new Pawn(Color.White, Board, this), 'h', 6);
+            putNewPiece(new Pawn(Color.White, Board, this), 'h', 2);
 
             putNewPiece(new Tower(Color.Pink, Board), 'a', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'b', 8);
@@ -305,7 +305,7 @@ namespace chess
             putNewPiece(new Bishop(Color.Pink, Board), 'f', 8);
             putNewPiece(new Horse(Color.Pink, Board), 'g', 8);
             putNewPiece(new Tower(Color.Pink, Board), 'h', 8);
-            putNewPiece(new Pawn(Color.Pink, Board, this), 'a', 3);
+            putNewPiece(new Pawn(Color.Pink, Board, this), 'a', 7);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'b', 7);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'c', 7);
             putNewPiece(new Pawn(Color.Pink, Board, this), 'd', 7);
